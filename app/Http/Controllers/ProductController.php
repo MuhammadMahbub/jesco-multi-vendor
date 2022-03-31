@@ -52,14 +52,16 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
+            'product_discount' => $request->product_discount,
             'product_short_description' => $request->product_short_description,
             'product_long_description' => $request->product_long_description,
             'product_code' => $request->product_code,
             'product_photo' => $new_name,
             'product_slug' => $slug,
-            'product_slug' => $request->product_quantity,
+            'product_quantity' => $request->product_quantity,
             'created_at' => Carbon::now(),
         ]);
+
         foreach ($request->file('product_thumbnail') as $product_thumbnail) {
             $ext = $product_thumbnail->getClientOriginalExtension();
             $thumbnail_name = $product_id . '-' . uniqid() . '.' . $ext;

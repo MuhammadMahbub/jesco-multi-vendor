@@ -30,9 +30,17 @@
             <h5 class="title"><a
                     href="{{ route('product.details', $product->product_slug) }}">{{ $product->product_name }}</a>
             </h5>
-            <span class="price">
-                <span class="new">${{ $product->product_price }}</span>
-            </span>
+            @if ($product->product_discount == null)
+                <span class="price">
+                    <span class="new">${{ $product->product_price }}</span>
+                </span>
+            @else
+                <span class="price">
+                    <span class="new">$<del>{{ $product->product_price }}</del></span>
+                    --Now:<span
+                        class="new">${{ $product->product_price - ($product->product_price * $product->product_discount) / 100 }}</span>
+                </span>
+            @endif
             <span class="price">
                 <span class="new">Vendor:
                     {{-- {{ App\Models\User::find($product->user_id)->name }} --}}

@@ -18,4 +18,8 @@ class Product extends Model
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
+    function relationtodeal()
+    {
+        return $this->hasOne(Deal::class, 'product_id', 'id');
+    }
 }

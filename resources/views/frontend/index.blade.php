@@ -1303,11 +1303,11 @@
                     <div class="deal-inner position-relative pt-100px pb-100px">
                         <div class="deal-wrapper">
                             <span class="category">#FASHION SHOP</span>
-                            <h3 class="title">Deal Of The Day</h3>
-                            <div class="deal-timing">
+                            <h3 class="title">Deals Of The Day</h3>
+                            {{-- <div class="deal-timing">
                                 <div data-countdown="2021/05/15"></div>
-                            </div>
-                            <a href="shop-left-sidebar.html" class="m-auto btn btn-lg btn-primary btn-hover-dark">
+                            </div> --}}
+                            <a href="{{ route('all.deals') }}" class="m-auto btn btn-lg btn-primary btn-hover-dark">
                                 Shop
                                 Now <i class="fa fa-shopping-basket ml-15px" aria-hidden="true"></i></a>
                         </div>
@@ -1322,7 +1322,7 @@
     </div>
     <!-- Deal Area End -->
     <!--  Blog area Start -->
-    <div class="main-blog-area pb-100px pt-100px">
+    {{-- <div class="main-blog-area pb-100px pt-100px">
         <div class="container">
             <!-- section title start -->
             <div class="row">
@@ -1415,6 +1415,6 @@
                 <!-- End single blog -->
             </div>
         </div>
-    </div>
+    </div> --}}
     <!--  Blog area End -->
 @endsection

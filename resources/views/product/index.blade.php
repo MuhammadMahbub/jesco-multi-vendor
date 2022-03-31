@@ -17,6 +17,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Product Price</th>
+                        <th scope="col">Product Discount</th>
                         <th scope="col">Product Quantity</th>
                         <th scope="col">Category:</th>
                         <th scope="col">Action</th>
@@ -28,6 +29,7 @@
                             <th scope="row">1 </th>
                             <td>{{ $product->product_name }}</td>
                             <td>{{ $product->product_price }}</td>
+                            <td>{{ $product->product_discount }}%</td>
                             <td>{{ $product->product_quantity }}</td>
                             <td>{{ App\Models\Category::find($product->category_id)->category_name }}</td>
                             <td>

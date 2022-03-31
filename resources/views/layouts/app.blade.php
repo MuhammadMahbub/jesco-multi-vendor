@@ -145,11 +145,14 @@
                                     <a href="{{ route('size.index') }}"><i class="fi-layers"></i> <span> Size
                                         </span></a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('deal.index') }}"><i class="fi-layers"></i> <span> Deal
+                                        </span></a>
+                                </li>
                             @elseif(Auth::user()->role == 1)
                                 <li>
                                     <a href="{{ route('my_order.index') }}"><i class="fi-layers"></i> <span> My
                                             Order</a>
-
                                 </li>
                             @endif
                         </ul>

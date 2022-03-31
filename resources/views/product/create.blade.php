@@ -35,6 +35,11 @@
                         id="product_price" name="product_price" value="{{ old('product_price') }}">
                 </div>
                 <div class="form-group">
+                    <label for="product_discount">Product Discount</label>
+                    <input type="number" class="form-control @error('product_discount') is-invalid @enderror"
+                        id="product_discount" name="product_discount" value="{{ old('product_discount') }}">
+                </div>
+                <div class="form-group">
                     <label for="product_short_description">Short Description</label>
                     <textarea type="text" class="form-control" id="product_short_description"
                         name="product_short_description">{{ old('product_short_description') }}</textarea>
