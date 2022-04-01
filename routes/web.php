@@ -54,6 +54,7 @@ Route::resource('banner', BannerController::class);
 Route::resource('category', CategoryController::class);
 Route::resource('vendor', VendorController::class);
 Route::resource('product', ProductController::class);
+Route::delete('product_thumb/destroy/{id}', [ProductController::class, 'product_destroy_thumb'])->name('product_thumb.delete');
 Route::resource('wishlist', WishlistController::class);
 Route::resource('coupon', CouponController::class);
 Route::resource('size', SizeController::class);

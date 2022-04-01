@@ -84,15 +84,41 @@ class ProductController extends Controller
     }
 
 
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        return view('product.edit', compact('product'));
     }
 
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        // return $request->new_product_thumbnail;
+        $request->validate([
+            'product_discount' => 'max:99'
+        ]);
+        $product = Product::find($id);
+
+        if ($request->hasFile('new_product_photo')) {
+            unlink(base_path('public/uploads/product_photos/' . $product->product_photo));
+            $ext = $request->file('new_product_photo')->getClientOriginalExtension();
+            $new_name = $product->id . '-' . uniqid() . '.' . $ext;
+            Image::make($request->file('new_product_photo'))->resize(600, 328)->save(base_path('public/uploads/product_photos/' . $new_name));
+
+            $product->update([
+                'product_photo' => $new_name,
+            ]);
+        }
+
+        $product->update([
+            'product_name' => $request->product_name,
+            'product_price' => $request->product_price,
+            'product_discount' => $request->product_discount,
+            'product_code' => $request->product_code,
+            'product_quantity' => $request->product_quantity,
+        ]);
+
+        return redirect()->route('product.index')->with('success', 'Product Updated Successfully');
     }
 
 
@@ -100,6 +126,13 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         unlink(base_path('public/uploads/product_photos/' . $product->product_photo));
+        $product->delete();
+        return back()->with('delete', 'Product Deleted Successfully');
+    }
+    public function product_destroy_thumb($id)
+    {
+        $product = Product_Thumbnail::find($id);
+        unlink(base_path('public/uploads/product_thumbnails/' . $product->product_thumbnail_name));
         $product->delete();
         return back()->with('delete', 'Product Deleted Successfully');
     }

@@ -26,14 +26,20 @@
                 <tbody>
                     @forelse ($products as $product)
                         <tr>
-                            <th scope="row">1 </th>
+                            <th scope="row">{{ $loop->index + 1 }}</th>
                             <td>{{ $product->product_name }}</td>
-                            <td>{{ $product->product_price }}</td>
-                            <td>{{ $product->product_discount }}%</td>
+                            <td>${{ $product->product_price }}</td>
+                            <td>
+                                @if ($product->product_discount == null)
+                                    NULL
+                                @else
+                                    {{ $product->product_discount }}%
+                                @endif
+                            </td>
                             <td>{{ $product->product_quantity }}</td>
                             <td>{{ App\Models\Category::find($product->category_id)->category_name }}</td>
                             <td>
-                                <a class="btn btn-outline-info" href="">Edit</a>
+                                <a class="btn btn-outline-info" href="{{ route('product.edit', $product->id) }}">Edit</a>
                                 <a class="btn btn-outline-warning"
                                     href="{{ route('product.show', $product->id) }}">Show</a>
                                 <form action="{{ route('product.destroy', $product->id) }}" method="post">

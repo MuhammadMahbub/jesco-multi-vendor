@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <th>Product Price</th>
-                    <td>{{ $product->product_price }}</td>
+                    <td>${{ $product->product_price }}</td>
                 </tr>
                 <tr>
                     <th>Product Discount</th>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <th>Discount Price</th>
-                    <td>{{ $product->product_price - ($product->product_price * $product->product_discount) / 100 }}%</td>
+                    <td>${{ $product->product_price - ($product->product_price * $product->product_discount) / 100 }}</td>
                 </tr>
                 <tr>
                     <th>Product Code</th>
