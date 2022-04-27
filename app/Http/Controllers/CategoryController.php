@@ -21,16 +21,13 @@ class CategoryController extends Controller
         return view('category.index', compact('categories'));
     }
 
-
     public function create()
     {
         return view('category.create');
     }
 
-
     public function store(Request $request)
     {
-
         $request->validate([
             '*' => 'required',
         ]);
@@ -41,10 +38,10 @@ class CategoryController extends Controller
 
 
         Category::insert([
-            'category_name' => $request->category_name,
+            'category_name'    => $request->category_name,
             'category_tagline' => $request->category_tagline,
-            'category_photo' => $new_name,
-            'created_at' => Carbon::now(),
+            'category_photo'   => $new_name,
+            'created_at'       => Carbon::now(),
         ]);
         return redirect()->route('category.index')->with('success', 'Category Added Successfully');
     }
@@ -55,13 +52,11 @@ class CategoryController extends Controller
         return view('category.show', compact('category'));
     }
 
-
     public function edit($id)
     {
         $category = Category::find($id);
         return view('category.edit', compact('category'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -79,13 +74,12 @@ class CategoryController extends Controller
         }
 
         $category->update([
-            'category_name' => $request->category_name,
+            'category_name'    => $request->category_name,
             'category_tagline' => $request->category_tagline,
-            'status' => $request->status,
+            'status'           => $request->status,
         ]);
         return redirect()->route('category.index')->with('success', 'Category Updated Successfully');
     }
-
 
     public function destroy($id)
     {

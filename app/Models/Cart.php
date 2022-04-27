@@ -11,11 +11,12 @@ class Cart extends Model
 
     protected $fillable = ['amount'];
 
-    function relationtoproduct()
+    public function relationtoproduct()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
-    function relationtouser()
+
+    public function relationtouser()
     {
         return $this->hasOne(User::class, 'id', 'vendor_id');
     }

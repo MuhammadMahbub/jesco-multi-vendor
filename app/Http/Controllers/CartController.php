@@ -11,26 +11,27 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    function wishlisttocart($wishlist_id)
+    public function wishlisttocart($wishlist_id)
     {
         $product_id = Wishlist::find($wishlist_id)->first()->product_id;
         $vendor_id = Product::find($product_id)->user_id;
         $esists = Cart::where('user_id', auth()->id())->where('product_id', $product_id)->exists();
+
         if ($esists) {
             Cart::where('user_id', auth()->id())->where('product_id', $product_id)->increment('amount', 1);
         } else {
             Cart::insert([
-                'user_id' => auth()->id(),
-                'vendor_id' => $vendor_id,
+                'user_id'    => auth()->id(),
+                'vendor_id'  => $vendor_id,
                 'product_id' => $product_id,
                 'created_at' => Carbon::now()
             ]);
             Wishlist::find($wishlist_id)->delete();
         }
 
-
         return back();
     }
+
     public function addtocart(Request $request, $product_id)
     {
         if (Product::find($product_id)->product_quantity < $request->qtybutton) {
@@ -43,11 +44,11 @@ class CartController extends Controller
                 Cart::where('user_id', auth()->id())->where('product_id', $product_id)->increment('amount', $request->qtybutton);
             } else {
                 Cart::insert([
-                    'user_id' => auth()->id(),
-                    'vendor_id' => Product::find($product_id)->user_id, //vendor_id
-                    'product_id' => $product_id,
-                    'amount' => $request->qtybutton,
-                    'created_at' => Carbon::now()
+                    'user_id'     => auth()->id(),
+                    'vendor_id'   => Product::find($product_id)->user_id, //vendor_id
+                    'product_id'  => $product_id,
+                    'amount'      => $request->qtybutton,
+                    'created_at'  => Carbon::now()
                 ]);
             }
         }
@@ -59,9 +60,11 @@ class CartController extends Controller
     {
         if (isset($_GET['coupon_name'])) {
             $coupon_name = $_GET['coupon_name'];
+
             if ($_GET['coupon_name']) {
                 if (Coupon::where('coupon_name', $_GET['coupon_name'])->exists()) {
                     $coupon_info = Coupon::where('coupon_name', $_GET['coupon_name'])->first();
+
                     if ($coupon_info->limit != 0) {
                         if ($coupon_info->validity > Carbon::today()->format('Y-m-d')) {
                             $discount = round(session('s_cart_total') * ($coupon_info->discount) / 100);
@@ -90,10 +93,10 @@ class CartController extends Controller
 
     public function clearshoppingcart($user_id)
     {
-
         Cart::where('user_id', $user_id)->delete();
         return back();
     }
+
     public function cartupdate(Request $request)
     {
         foreach ($request->qtybutton as $cart_id => $updated_amount) {

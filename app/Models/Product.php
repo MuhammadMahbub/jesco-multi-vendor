@@ -13,16 +13,17 @@ class Product extends Model
         'product_name', 'product_price', 'product_discount', 'product_short_description', 'product_long_description', 'product_code', 'product_photo', 'product_slug', 'product_quantity',
     ];
 
-    function relationtouser()
+    public function relationtouser()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    function relationtocategory()
+    public function relationtocategory()
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
-    function relationtodeal()
+
+    public function relationtodeal()
     {
         return $this->hasOne(Deal::class, 'product_id', 'id');
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\{Category, Product};
-// use App\Models\Product;
 use App\Models\Banner;
 use App\Models\Deal;
 use App\Models\Rating;
@@ -15,19 +14,21 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-    function index()
+    public function index()
     {
-        $deals = Deal::all();
-        $categories = Category::where('status', 'show')->get();
+        $deals       = Deal::all();
+        $categories  = Category::where('status', 'show')->get();
         $allproducts = Product::all();
-        $banners = Banner::where('status', 'show')->limit(3)->get();
+        $banners     = Banner::where('status', 'show')->limit(3)->get();
         return view('frontend.index', compact('categories', 'allproducts', 'banners', 'deals'));
     }
-    function contact()
+
+    public function contact()
     {
         return view('frontend.contact');
     }
-    function shop()
+
+    public function shop()
     {
         if (isset($_GET['min_price']) || isset($_GET['max_price'])) {
             $min = $_GET['min_price'];
@@ -47,7 +48,7 @@ class FrontendController extends Controller
         }
     }
 
-    // function productsize($product_size)
+    // public function productsize($product_size)
     // {
     //     foreach (Size::where('size', $product_size)->get() as $item) {
     //         echo $allproducts = Product::find($item->product_id)->product_photo;
@@ -63,7 +64,7 @@ class FrontendController extends Controller
     //     return view('frontend.shop', compact('categories', 'allproducts', 'min', 'max', 'sizes'));
     // }
 
-    function product_details($slug)
+    public function product_details($slug)
     {
         $wishlist_status = Wishlist::where('user_id', auth()->id())->where('product_id', Product::where('product_slug', $slug)->first()->id)->exists();
         if ($wishlist_status) {
@@ -78,14 +79,14 @@ class FrontendController extends Controller
         return view('frontend.productdetails', compact('productdetails', 'related_products', 'wishlist_status', 'wishlist_id', 'reviews'));
     }
 
-    function categorywiseproducts($category_id)
+    public function categorywiseproducts($category_id)
     {
         $category_name = Category::findOrFail($category_id);
         $categorywiseproducts =  Product::where('category_id', $category_id)->get();
         return view('frontend.categorywiseproducts', compact('categorywiseproducts', 'category_name'));
     }
 
-    function alldeals()
+    public function alldeals()
     {
         $alldeals = Deal::where('validity', '>', Carbon::now())->get();
         $expiredeals = Deal::where('validity', '<', Carbon::now())->get();
@@ -100,23 +101,23 @@ class FrontendController extends Controller
         }
     }
 
-    function productdeal()
+    public function productdeal()
     {
         $products = Product::where('user_id', Auth::id())->where('product_discount', '!=', NULL)->get();
         return view('frontend.deal', compact('products'));
     }
 
-    function dealstore(Request $request)
+    public function dealstore(Request $request)
     {
         $request->validate([
-            '*' => 'required',
+            '*'        => 'required',
             'validity' => 'date|after:today',
         ]);
 
         Deal::insert([
             'product_id' => $request->product_id,
-            'vendor_id' => Auth::user()->id,
-            'validity' => $request->validity,
+            'vendor_id'  => Auth::user()->id,
+            'validity'   => $request->validity,
             'created_at' => Carbon::now(),
         ]);
         return redirect('home');

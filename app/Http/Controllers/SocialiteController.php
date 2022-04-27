@@ -10,15 +10,16 @@ use App\Models\User;
 
 class SocialiteController extends Controller
 {
-    function googleRedirect()
+    public function googleRedirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    function googleCallback()
+    public function googleCallback()
     {
         $user = Socialite::driver('google')->stateless()->user();
         $findUser = User::where('google_id', $user->id)->first();
+
         if ($findUser) {
             Auth::login($findUser);
             return redirect('home');

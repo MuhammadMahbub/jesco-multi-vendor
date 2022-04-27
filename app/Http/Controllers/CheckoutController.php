@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
-    function checkout(Request $request)
+    public function checkout(Request $request)
     {
         Session::put('s_shipping_total', $request->shipping);
+
         if (strpos(url()->previous(), 'cart') || strpos(url()->previous(), 'checkout')) {
             return view('frontend.checkout', [
                 'countries' => Country::where('status', 'active')->get(['id', 'name']),
@@ -29,13 +30,13 @@ class CheckoutController extends Controller
         }
     }
 
-    function checkout_post(Request $request)
+    public function checkout_post(Request $request)
     {
         $request->validate([
             'order_notes' => 'nullable',
             '*' => 'required',
         ]);
-        // print_r($request->session());
+
         $order_summery_id = Order_summery::insertGetId([
             'user_id' => auth()->id(),
             'cart_total' => session('s_cart_total'),
@@ -47,6 +48,7 @@ class CheckoutController extends Controller
             'coupon_name' => session('s_coupon_name'),
             'created_at' => Carbon::now()
         ]);
+
         Billing_details::insert([
             'order_summery_id' => $order_summery_id,
             'name' => $request->name,
@@ -58,6 +60,7 @@ class CheckoutController extends Controller
             'postcode' => $request->postcode,
             'order_notes' => $request->message,
         ]);
+
         foreach (allcarts() as $cart) {
             Order_detail::insert([
                 'order_summery_id' => $order_summery_id,
@@ -67,12 +70,12 @@ class CheckoutController extends Controller
                 'created_at' => Carbon::now()
             ]);
             Product::find($cart->product_id)->decrement('product_quantity', $cart->amount);
-            // cart delete korte hobe
-            // Cart::find($cart->id)->delete(); /*this line will be used*/
         }
+
         if (session('s_coupon_name')) {
             Coupon::where('coupon_name', session('s_coupon_name'))->decrement('limit', 1);
         }
+
         if ($request->payment_option == 0) {
             return redirect('home')->with('success', 'Purchase Successfull');
         } else {
@@ -81,7 +84,7 @@ class CheckoutController extends Controller
         }
     }
 
-    function get_cities(Request $request)
+    public function get_cities(Request $request)
     {
         $show_city = "<option value=''>Select City</option>";
         $cities = City::where('country_id', $request->country_id)->get(['id', 'name']);

@@ -61,16 +61,18 @@ Route::resource('size', SizeController::class);
 
 Route::get('/wishlist/insert/{product_id}', [WishlistController::class, 'insert'])->name('wishlist.insert');
 Route::get('/wishlist/remove/{wishlist_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-Route::get('/cart/remove/{cart_id}', [CartController::class, 'remove'])->name('cart.remove');
+
 Route::get('/wishlisttocart/{wishlist_id}', [CartController::class, 'wishlisttocart'])->name('wishlisttocart');
 Route::post('/addtocart/{product_id}', [CartController::class, 'addtocart'])->name('addtocart');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::get('/clear/shopping/cart/{user_id}', [CartController::class, 'clearshoppingcart'])->name('clearshoppingcart');
 Route::post('/cart/update/', [CartController::class, 'cartupdate'])->name('cartupdate');
+Route::get('/cart/remove/{cart_id}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/checkout/post', [CheckoutController::class, 'checkout_post'])->name('checkout_post');
 Route::post('/get/cities', [CheckoutController::class, 'get_cities'])->name('get_cities');
+
 Route::get('/location', [HomeController::class, 'location'])->name('location');
 Route::post('/location/update', [HomeController::class, 'locationupdate'])->name('location.update');
 Route::post('/location/update', [HomeController::class, 'locationupdate'])->name('location.update');
@@ -81,14 +83,11 @@ Route::post('/review/rating/{order_detail_id}', [HomeController::class, 'reviewr
 // SSLCOMMERZ Start
 Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
 Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
-
 Route::get('/pay', [SslCommerzPaymentController::class, 'index']);
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
-
 Route::post('/success', [SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
-
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
 

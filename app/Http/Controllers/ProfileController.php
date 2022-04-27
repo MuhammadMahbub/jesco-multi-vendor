@@ -15,30 +15,34 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
     }
-    function index()
+
+    public function index()
     {
         return view('profile');
     }
-    function name_change(Request $request)
+
+    public function name_change(Request $request)
     {
         $request->validate([
             'name' => 'required'
         ]);
 
-        $name = $request->name;
         User::find(Auth::id())->update([
-            'name' => $name,
+            'name' => $request->name,
         ]);
+
         return redirect()->to('/home')->with('success', 'name changed');;
     }
-    function change_password(Request $request)
+
+    public function change_password(Request $request)
     {
         $request->validate([
-            '*' => 'required',
+            '*'            => 'required',
             'new_password' => 'min:8'
         ]);
 
         $hashcheck = Hash::check($request->old_password, Auth::user()->password);
+
         if ($hashcheck) {
             if ($request->new_password == $request->confirm_password) {
                 User::find(Auth::id())->update([
@@ -53,7 +57,7 @@ class ProfileController extends Controller
         }
     }
 
-    function profile_photo_change(Request $request)
+    public function profile_photo_change(Request $request)
     {
         $request->validate([
             'new_profile_photo' => 'required | image',
@@ -63,6 +67,7 @@ class ProfileController extends Controller
             $old_link = base_path('public/uploads/profile_photos/' . Auth::user()->profile_photo);
             unlink($old_link);
         }
+
         $ext = $request->file('new_profile_photo')->getClientOriginalExtension();
         $new_name = Auth::id() . '-' . uniqid() . '.' . $ext;
         Image::make($request->file('new_profile_photo'))->resize(300, 300)->save(base_path('public/uploads/profile_photos/' . $new_name));
@@ -70,6 +75,7 @@ class ProfileController extends Controller
         User::find(Auth::id())->update([
             'profile_photo' => $new_name,
         ]);
+
         return back()->with('success', "photo uploaded");
     }
 }

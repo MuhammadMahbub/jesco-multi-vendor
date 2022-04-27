@@ -9,7 +9,7 @@ class Wishlist extends Model
 {
     use HasFactory;
 
-    function relationtoproduct()
+    public function relationtoproduct()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }

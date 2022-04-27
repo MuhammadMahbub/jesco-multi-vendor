@@ -24,13 +24,14 @@ class CouponForm extends FormRequest
     public function rules()
     {
         return [
-            '*' => 'required',
+            '*'           => 'required',
             'coupon_name' => 'required|unique:coupons',
-            'discount' => 'numeric|min:1|max:99',
-            'validity' => 'date|after:today',
-            'limit' => 'numeric|min:1'
+            'discount'    => 'numeric|min:1|max:99',
+            'validity'    => 'date|after:today',
+            'limit'       => 'numeric|min:1'
         ];
     }
+
     public function messages()
     {
         return [

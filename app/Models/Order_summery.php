@@ -11,7 +11,7 @@ class Order_summery extends Model
 
     protected $fillable = ['delivered_status'];
 
-    function relationwithuser()
+    public function relationwithuser()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
